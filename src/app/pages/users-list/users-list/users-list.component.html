@@ -1,3 +1,16 @@
-@for (user of users$ | async; track user.id) {
-<user-card (onDelete)="onDelete($event)" [user]="user"></user-card>
-}
+<div class="users">
+  <div>
+    <button mat-raised-button (click)="openDialog()">
+      Добавить пользователя
+    </button>
+  </div>
+
+  @for (user of users$ | async; track user.id) {
+  <user-card
+    class="user-card"
+    (onEdit)="onEdit($event)"
+    (onDelete)="onDelete($event)"
+    [user]="user"
+  ></user-card>
+  }
+</div>

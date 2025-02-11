@@ -1,16 +1,30 @@
-.user-card {
-  border: 1px solid rgb(0, 156, 83);
-  border-radius: 10px;
-  width: 20rem;
-  margin-bottom: 10px;
+.card {
   display: flex;
+  flex-direction: row;
   justify-content: space-between;
+  cursor: pointer;
+  user-select: none;
 
-  &__x {
-    margin-right: 10px;
-    font-weight: bold;
-    color: rgb(160, 0, 0);
-    user-select: none;
-    cursor: pointer;
+  &-user {
+    width: 70%;
   }
+
+  &-delete {
+    padding: 1rem;
+
+    button {
+      background-color: rgb(240, 54, 54);
+      color: rgb(235, 235, 235);
+    }
+  }
+}
+
+.mat-mdc-card {
+  width: 22rem;
+  height: 14rem;
+  word-wrap: break-word;
+}
+
+.mat-mdc-chip-set {
+  padding: 1rem;
 }

@@ -7,7 +7,7 @@ export interface IUser {
   name: string;
   username: string;
   email: string;
-  address: {
+  address?: {
     street: string;
     suite: string;
     city: string;
@@ -18,8 +18,8 @@ export interface IUser {
     };
   };
   phone: string;
-  website: string;
-  company: {
+  website?: string;
+  company?: {
     name: string;
     catchPhrase: string;
     bs: string;
