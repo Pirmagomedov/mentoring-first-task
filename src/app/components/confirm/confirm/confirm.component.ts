@@ -8,7 +8,7 @@ import {
   MatDialogRef,
   MatDialogTitle,
 } from '@angular/material/dialog';
-import { IUser } from '../../../services/users-api.service';
+import { User } from '../../../types/user.interface';
 
 @Component({
   selector: 'app-confirm',
@@ -25,10 +25,9 @@ import { IUser } from '../../../services/users-api.service';
 })
 export class ConfirmComponent {
   readonly dialogRef = inject(MatDialogRef<ConfirmComponent>);
+  readonly data: { user: User } = inject(MAT_DIALOG_DATA)
 
-  constructor(@Inject(MAT_DIALOG_DATA) readonly data: { user: IUser }) {}
-
-  onDelete() {
+  public onDelete(): void {
     this.dialogRef.close(true)
   }
 }

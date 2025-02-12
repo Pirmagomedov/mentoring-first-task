@@ -4,10 +4,10 @@
       Добавить пользователя
     </button>
   </div>
-
+  
   @for (user of users$ | async; track user.id) {
   <user-card
-    class="user-card"
+    class="users-card"
     (onEdit)="onEdit($event)"
     (onDelete)="onDelete($event)"
     [user]="user"

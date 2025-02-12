@@ -1,17 +1,18 @@
 import { Component, inject } from '@angular/core';
-import { BehaviorSubject, filter, Observable } from 'rxjs';
-import { UsersApiService, IUser } from '../../../services/users-api.service';
+import { Observable } from 'rxjs';
 import { CommonModule } from '@angular/common';
-import { UserCardComponent } from '../../../components/user-card/user-card.component';
-import { UsersService } from '../../../services/users.service';
 import { MatDialog } from '@angular/material/dialog';
-import { CreateUserModalComponent } from '../../../components/create-user-modal/create-user-modal/create-user-modal.component';
 import { MatButtonModule } from '@angular/material/button';
-import { ConfirmComponent } from '../../../components/confirm/confirm/confirm.component';
+import { UsersApiService } from '../../services/users-api.service';
+import { UsersService } from '../../services/users.service';
+import { CreateUserModalComponent } from '../../components/user-card-modal/user-card-modal.component';
+import { ConfirmComponent } from '../../components/confirm/confirm/confirm.component';
+import { UserCardComponent } from '../../components/user-card/user-card.component';
+import { User } from '../../types/user.interface';
 
 @Component({
-  selector: 'users-list',
   standalone: true,
+  selector: 'users-list',
   imports: [CommonModule, UserCardComponent, MatButtonModule],
   templateUrl: './users-list.component.html',
   styleUrl: './users-list.component.scss',
@@ -19,22 +20,20 @@ import { ConfirmComponent } from '../../../components/confirm/confirm/confirm.co
 export class UsersListComponent {
   apiService = inject(UsersApiService);
   usersService = inject(UsersService);
-  users$: Observable<IUser[]> = this.usersService.users$;
-  dialog = inject(MatDialog);
+  users$: Observable<User[]> = this.usersService.users$;
+  dialog: MatDialog = inject(MatDialog);
 
   constructor() {
-    const cache = localStorage.getItem("users")
-    cache ? this.usersService.setUsers(JSON.parse(cache))
-    :
-    this.apiService
-      .getUsers()
-      .subscribe((data) => {
-        localStorage.setItem("users", JSON.stringify(data))
-        this.usersService.setUsers(data)
-      });
+    const cache = localStorage.getItem('users');
+    cache
+      ? this.usersService.setUsers(JSON.parse(cache))
+      : this.apiService.getUsers().subscribe((data) => {
+          localStorage.setItem('users', JSON.stringify(data));
+          this.usersService.setUsers(data);
+        });
   }
 
-  openDialog() {
+  public openDialog(): void {
     const dialogRef = this.dialog.open(CreateUserModalComponent, {
       data: {
         isEdit: false,
@@ -46,7 +45,7 @@ export class UsersListComponent {
     });
   }
 
-  public onEdit(user: IUser) {
+  public onEdit(user: User): void {
     const dialogRef = this.dialog.open(CreateUserModalComponent, {
       data: {
         user,
@@ -59,13 +58,13 @@ export class UsersListComponent {
     });
   }
 
-  public onDelete([id, event]: [number, Event]) {
+  public onDelete([id, event]: [number, Event]): void {
     event.stopPropagation();
 
     const dialogRef = this.dialog.open(ConfirmComponent, {
       data: {
-        user: this.usersService.users.find(user => user.id === id)
-      }
+        user: this.usersService.users.find((user) => user.id === id),
+      },
     });
 
     dialogRef.afterClosed().subscribe((result) => {

@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
-import { IUser } from './users-api.service';
-import { BehaviorSubject, Observable, skip } from 'rxjs';
+import { User } from '../types/user.interface';
+import { BehaviorSubject, skip } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UsersService {
-  users: IUser[] = [];
-  users$: BehaviorSubject<IUser[]> = new BehaviorSubject<IUser[]>([]);
+  users: User[] = [];
+  users$: BehaviorSubject<User[]> = new BehaviorSubject<User[]>([]);
 
   constructor() {
     this.users$
@@ -18,7 +18,7 @@ export class UsersService {
     });
   }
 
-  public addUser(user: IUser): void {
+  public addUser(user: User): void {
     this.users$.next(
       this.users$.value.concat({
         ...user,
@@ -27,7 +27,7 @@ export class UsersService {
     );
   }
 
-  public editUser(editedUser: IUser): void {
+  public editUser(editedUser: User): void {
     this.users$.next(
       this.users$.value.map((user) =>
         editedUser.id === user.id ? editedUser : user
@@ -39,7 +39,7 @@ export class UsersService {
     this.users$.next(this.users$.value.filter((user) => user.id !== id));
   }
 
-  public setUsers(data: IUser[]): void {
+  public setUsers(data: User[]): void {
     this.users$.next(data);
   }
 }

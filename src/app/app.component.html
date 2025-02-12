@@ -1,4 +1,4 @@
-<a routerLink="users" *ngIf="route !== '/users'">
+<a routerLink="users" *ngIf="(router$ | async) !== '/users'">
   <button mat-raised-button>К пользователям</button>
 </a>
 <router-outlet></router-outlet>
